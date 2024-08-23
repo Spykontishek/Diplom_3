@@ -1,17 +1,12 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from locators.order_history_page_locators import Locators
+import allure
+from pages.base_page import BasePage
+class OrderHistoryPage(BasePage):
 
-
-class OrderHistoryPage:
-    ORDER_CONFIRMATION_WINDOW = (By.XPATH, "//p[@class = 'text text_type_digits-default']")
-
-    def __init__(self, driver):
-        self.driver = driver
-
+    @allure.step('ожидание пока информация о сделанном заказе станет видима и возвращение текста номера этого заказа')
     def get_number_of_order(self):
-        WebDriverWait(self.driver, 3).until(EC.visibility_of_element_located(self.ORDER_CONFIRMATION_WINDOW))
-        return self.driver.find_element(*self.ORDER_CONFIRMATION_WINDOW).text
+        self.wait_element_to_be_visible_method(Locators.ORDER_CONFIRMATION_WINDOW)
+        return self.get_element_text_method(Locators.ORDER_CONFIRMATION_WINDOW)
 
 
 

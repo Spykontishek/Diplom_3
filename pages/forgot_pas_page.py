@@ -1,21 +1,21 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from constants import Constants
+from locators.forgot_pas_page_locators import Locators
+import allure
+from pages.base_page import BasePage
+from data import Data
 
-
-class ForgotPasPage:
-    EMAIL_FIELD = (By.XPATH, "//input[@class = 'text input__textfield text_type_main-default']")
-    RESTORE_BUTTON = (By.XPATH, "//button[text()='Восстановить']")
-
-    def __init__(self, driver):
-        self.driver = driver
-
+class ForgotPasPage(BasePage):
+    @allure.step('Заполнение поля "Email"')
     def set_email(self, email):
-        self.driver.find_element(*self.EMAIL_FIELD).send_keys(email)
+        self.send_keys_method(Locators.EMAIL_FIELD, email)
 
+    @allure.step('клик по кнопке "Восстановить"')
     def click_restore_button(self):
-        self.driver.find_element(*self.RESTORE_BUTTON).click()
+        self.click_method(Locators.RESTORE_BUTTON)
 
+    @allure.step('Ожидания перехода на 2-ую страницу восстановления пароля')
     def wait_go_to_reset_pas_url(self):
-        WebDriverWait(self.driver, 3).until(EC.url_to_be(Constants.RESET_PAS_URL))
+        self.wait_url_to_be_visible_method(Data.RESET_PAS_URL)
+
+    @allure.step('Переход на 1-ую страницу восстановления пароля')
+    def navigate_forgot_pas_url(self):
+        self.navigate_url_method(Data.FORGOT_PAS_URL)

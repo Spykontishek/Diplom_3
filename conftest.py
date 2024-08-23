@@ -1,14 +1,12 @@
 import pytest
 from selenium import webdriver
 from constants import Constants
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
 from locators.auth_page_locators import LocatorsAuth
 from locators.main_page_locators import Locators
 import json
 import requests
-from selenium.webdriver import ActionChains
-
+from pages.base_page import BasePage
+from data import Data
 
 @pytest.fixture(params=['chrome', 'firefox'])
 def driver(request):
@@ -17,7 +15,7 @@ def driver(request):
     elif request.param == 'firefox':
         browser = webdriver.Firefox()
 
-    browser.get(Constants.URL)
+    browser.get(Data.URL)
     yield browser
     browser.quit()
 
@@ -33,26 +31,27 @@ def reg():
     headers = {
         'Content-Type': 'application/json'
     }
-    response = requests.post(Constants.REG_URL, data=payload_string, headers=headers)
+    response = requests.post(Data.REG_URL, data=payload_string, headers=headers)
     r = response.json()
     token = r['accessToken']
     yield token
     headers = {'Authorization': token}
-    requests.delete(Constants.DEL_URL, headers=headers)
+    requests.delete(Data.DEL_URL, headers=headers)
 
 @pytest.fixture
 def log(driver, reg):
-    driver.get(Constants.AUTH_URL)
-    driver.find_element(*LocatorsAuth.EMAIL_FIELD).send_keys(Constants.EMAIL)
-    driver.find_element(*LocatorsAuth.PASSWORD_FIELD).send_keys(Constants.PASSWORD)
-    driver.find_element(*LocatorsAuth.LOGIN_BUTTON).click()
+    base_page = BasePage(driver)
+    base_page.navigate_url_method(Data.AUTH_URL)
+    base_page.send_keys_method(LocatorsAuth.EMAIL_FIELD, Constants.EMAIL)
+    base_page.send_keys_method(LocatorsAuth.PASSWORD_FIELD, Constants.PASSWORD)
+    base_page.click_method(LocatorsAuth.LOGIN_BUTTON)
 
 @pytest.fixture
 def create_order(driver, log):
-    WebDriverWait(driver, 3).until(EC.visibility_of_element_located(Locators.ANY_BUN))
-    action = ActionChains(driver)
-    action.drag_and_drop(driver.find_element(*Locators.ANY_BUN), driver.find_element(*Locators.BURGER_CONSTRUCTOR)).perform()
-    driver.find_element(*Locators.PLACE_AN_ORDER_BUTTON).click()
-    WebDriverWait(driver, 3).until(EC.element_to_be_clickable(Locators.ORDER_POP_UP_WINDOW))
-    element = driver.find_element(*Locators.X_BUTTON)
-    driver.execute_script("arguments[0].click();", element)
+    base_page = BasePage(driver)
+    base_page.wait_element_to_be_visible_method(Locators.ANY_BUN)
+    base_page.drag_and_drop_method(Locators.ANY_BUN, Locators.BURGER_CONSTRUCTOR)
+    base_page.click_method(Locators.PLACE_AN_ORDER_BUTTON)
+    base_page.wait_element_to_be_clickable_method(Locators.ORDER_POP_UP_WINDOW)
+    base_page.click_java_method(Locators.X_BUTTON)
+
