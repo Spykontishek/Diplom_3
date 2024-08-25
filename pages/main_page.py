@@ -42,7 +42,7 @@ class MainPage(BasePage):
 
     @allure.step('ожидание пока всплывающее окно с информацией об ингридиенте станет видимым')
     def wait_ingredient_pop_up_window_is_displayed(self):
-        self.wait_element_to_be_visible_method(Locators.INGREDIENT_POP_UP_WINDOW)
+        return self.wait_element_to_be_visible_method(Locators.INGREDIENT_POP_UP_WINDOW)
 
     @allure.step('клик по кнопке крестик всплывающего окна')
     def click_x_button(self):
@@ -51,10 +51,6 @@ class MainPage(BasePage):
     @allure.step('клик по кнопке крестик всплывающего окна с помощью Java')
     def click_on_x_button_java(self):
         self.click_java_method(Locators.X_BUTTON)
-
-    @allure.step('ожидание пока всплывающее окно с информацией об ингридиенте закроется')
-    def wait_pop_up_window_is_not_displayed(self):
-        self.wait_element_to_be_invisible(Locators.INGREDIENT_POP_UP_WINDOW)
 
     @allure.step('перетаскивание ингридиента в конструктор для оформления заказа')
     def move_ingredient_to_burger_constructor(self):
@@ -78,7 +74,7 @@ class MainPage(BasePage):
 
     @allure.step('проверка, что всплывающее окно открылось')
     def pop_up_is_displayed(self):
-        self.element_is_displayed_method(Locators.ORDER_POP_UP_WINDOW)
+        return self.element_is_displayed_method(Locators.ORDER_POP_UP_WINDOW)
 
     @allure.step('ожидание пока кнопка "Личный Кабинет станет кликабельной')
     def personal_account_button_is_clickable(self):
@@ -96,7 +92,8 @@ class MainPage(BasePage):
     def navigate_main_url(self):
         self.navigate_url_method(Data.URL)
 
-
+    def wait_ingredient_pop_up_window_is_not_visible(self):
+        return self.wait_element_to_be_not_visible_method(Locators.INGREDIENT_POP_UP_WINDOW)
 
 
 

@@ -14,7 +14,7 @@ class TestOrderFeed:
         order_feed_page.wait_for_any_order_to_be_visible()
         order_feed_page.click_on_order()
         order_feed_page.wait_order_pop_up_window_is_visible()
-        assert order_feed_page.pop_up_is_displayed
+        assert order_feed_page.pop_up_is_displayed() is True
 
     @allure.title('Проверка отображения заказов пользователя')
     @allure.description('Переход в раздел "История заказов" и проверка что все заказы оттуда отображаются и в "Ленте заказов"')

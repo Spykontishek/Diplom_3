@@ -18,7 +18,6 @@ class BasePage:
         drop = self.driver.find_element(*finish_locator_element)
         action.drag_and_drop(drag, drop).perform()
 
-
     def navigate_url_method(self, constants_url):
         self.driver.get(constants_url)
 
@@ -48,6 +47,12 @@ class BasePage:
     def get_element_text_method(self,locator):
         return self.driver.find_element(*locator).text
 
-    def wait_element_to_be_invisible(self,locator):
-            WebDriverWait(self.driver, 3).until(EC.invisibility_of_element_located(locator))
+    def get_current_url_method(self):
+        return self.driver.current_url
+
+    def wait_element_to_be_not_visible_method(self, locator):
+        return WebDriverWait(self.driver, 3).until_not(EC.visibility_of_element_located(locator))
+
+
+
 

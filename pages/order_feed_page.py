@@ -19,24 +19,30 @@ class OrderFeedPage(BasePage):
 
     @allure.step('проверка, что всплывающее окно открылось')
     def pop_up_is_displayed(self):
-        self.element_is_displayed_method(Locators.ORDER_FEED_POP_UP_OF_ORDER)
+        return self.element_is_displayed_method(Locators.ORDER_FEED_POP_UP_OF_ORDER)
+
     @allure.step('получение текста из всех заказов на странице')
     def get_all_orders_texts(self):
         return self.get_all_elements_texts_method(Locators.ORDERS_LIST)
+
     @allure.step('ожидание пока заказы станут видимыми')
     def wait_for_orders_to_be_visible(self):
         self.wait_all_elements_to_be_visible_method(Locators.ORDERS_LIST)
+
     @allure.step('ожидание пока текст с заказами "Выполнено за все время:" станет видимый и получение числа заказов из него ')
     def get_number_of_orders_for_all_time(self):
         self.wait_element_to_be_visible_method(Locators.TOTAL_COMPLETED_ORDERS_COUNTER)
         return self.get_element_text_method(Locators.TOTAL_COMPLETED_ORDERS_COUNTER)
+
     @allure.step('ожидание пока текст с заказами "Выполнено за сегодня:" станет видимый и получение числа заказов из него ')
     def get_number_of_orders_for_today(self):
         self.wait_element_to_be_visible_method(Locators.COMPLETED_ORDERS_FOR_TODAY_COUNTER)
         return self.get_element_text_method(Locators.COMPLETED_ORDERS_FOR_TODAY_COUNTER)
+
     @allure.step('ожидание пока заказы находящиеся "В работе:" станут видимыми')
     def wait_for_orders_in_progress_to_be_visible(self):
         self.wait_all_elements_to_be_visible_method(Locators.ORDERS_IN_PROGRESS_LIST)
+
     @allure.step('получение текста из всех заказов "В работе:"')
     def get_all_orders_in_progress_texts(self):
         return self.get_all_elements_texts_method(Locators.ORDERS_IN_PROGRESS_LIST)

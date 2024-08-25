@@ -12,7 +12,7 @@ class TestPersonalAccountButton:
         main_page = MainPage(driver)
         main_page.click_personal_account_button()
         main_page.wait_go_to_personal_account_url()
-        current_url = driver.current_url
+        current_url = main_page.get_current_url_method()
         assert current_url == Data.PERSONAL_ACC_URL
 
     @allure.title('Проверка кнопки "История заказов"')
@@ -24,7 +24,7 @@ class TestPersonalAccountButton:
         pers_ac_page = PersAcPage(driver)
         pers_ac_page.click_order_history_button()
         pers_ac_page.wait_go_to_order_history_url()
-        current_url = driver.current_url
+        current_url = pers_ac_page.get_current_url_method()
         assert current_url == Data.ORDER_HISTORY_URL
 
     @allure.title('Проверка выхода с аккаунта')
@@ -36,5 +36,5 @@ class TestPersonalAccountButton:
         pers_ac_page = PersAcPage(driver)
         pers_ac_page.click_exit_button()
         pers_ac_page.wait_go_to_auth_url()
-        current_url = driver.current_url
+        current_url = pers_ac_page.get_current_url_method()
         assert current_url == Data.AUTH_URL

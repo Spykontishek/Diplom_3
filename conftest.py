@@ -5,7 +5,8 @@ from locators.auth_page_locators import LocatorsAuth
 from locators.main_page_locators import Locators
 import json
 import requests
-from pages.base_page import BasePage
+from pages.auth_page import AuthPage
+from pages.main_page import MainPage
 from data import Data
 
 @pytest.fixture(params=['chrome', 'firefox'])
@@ -40,18 +41,18 @@ def reg():
 
 @pytest.fixture
 def log(driver, reg):
-    base_page = BasePage(driver)
-    base_page.navigate_url_method(Data.AUTH_URL)
-    base_page.send_keys_method(LocatorsAuth.EMAIL_FIELD, Constants.EMAIL)
-    base_page.send_keys_method(LocatorsAuth.PASSWORD_FIELD, Constants.PASSWORD)
-    base_page.click_method(LocatorsAuth.LOGIN_BUTTON)
+    auth_page = AuthPage(driver)
+    auth_page.navigate_url_method(Data.AUTH_URL)
+    auth_page.send_keys_method(LocatorsAuth.EMAIL_FIELD, Constants.EMAIL)
+    auth_page.send_keys_method(LocatorsAuth.PASSWORD_FIELD, Constants.PASSWORD)
+    auth_page.click_method(LocatorsAuth.LOGIN_BUTTON)
 
 @pytest.fixture
 def create_order(driver, log):
-    base_page = BasePage(driver)
-    base_page.wait_element_to_be_visible_method(Locators.ANY_BUN)
-    base_page.drag_and_drop_method(Locators.ANY_BUN, Locators.BURGER_CONSTRUCTOR)
-    base_page.click_method(Locators.PLACE_AN_ORDER_BUTTON)
-    base_page.wait_element_to_be_clickable_method(Locators.ORDER_POP_UP_WINDOW)
-    base_page.click_java_method(Locators.X_BUTTON)
+    main_page = MainPage(driver)
+    main_page.wait_element_to_be_visible_method(Locators.ANY_BUN)
+    main_page.drag_and_drop_method(Locators.ANY_BUN, Locators.BURGER_CONSTRUCTOR)
+    main_page.click_method(Locators.PLACE_AN_ORDER_BUTTON)
+    main_page.wait_element_to_be_clickable_method(Locators.ORDER_POP_UP_WINDOW)
+    main_page.click_java_method(Locators.X_BUTTON)
 

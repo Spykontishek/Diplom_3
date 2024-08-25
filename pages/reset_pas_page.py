@@ -10,6 +10,6 @@ class ResetPasPage(BasePage):
 
     @allure.step('проверка, что поле "Пароль" подсветилось')
     def active_field_password_is_displayed(self):
-        self.element_is_displayed_method(Locators.ACTIVE_FIELD_PASSWORD)
+        return self.element_is_displayed_method(Locators.ACTIVE_FIELD_PASSWORD)
 
 

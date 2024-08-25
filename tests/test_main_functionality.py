@@ -9,7 +9,7 @@ class TestMainFunctionality:
     def test_click_constructor_button(self, driver):
         main_page = MainPage(driver)
         main_page.click_constructor_button()
-        current_url = driver.current_url
+        current_url = main_page.get_current_url_method()
         assert current_url == Data.URL
 
     @allure.title('Проверка кнопки "Лента Заказов"')
@@ -18,7 +18,7 @@ class TestMainFunctionality:
         main_page = MainPage(driver)
         main_page.click_order_feed_button()
         main_page.wait_go_to_order_feed_url()
-        current_url = driver.current_url
+        current_url = main_page.get_current_url_method()
         assert current_url == Data.ORDER_FEED_URL
 
     @allure.title('Проверка нажатия на ингридиент')
@@ -27,7 +27,7 @@ class TestMainFunctionality:
         main_page = MainPage(driver)
         main_page.click_on_ingredient()
         main_page.wait_order_pop_up_window_is_visible()
-        assert main_page.pop_up_is_displayed
+        assert main_page.pop_up_is_displayed() is True
 
     @allure.title('Проверка нажатия на крестик всплывающего окна')
     @allure.description('Нажатие на крестик и проверка, что окно закрылось')
@@ -36,7 +36,7 @@ class TestMainFunctionality:
         main_page.click_on_ingredient()
         main_page.wait_ingredient_pop_up_window_is_displayed()
         main_page.click_x_button()
-        main_page.wait_pop_up_window_is_not_displayed()
+        assert main_page.wait_ingredient_pop_up_window_is_not_visible() is True
 
     @allure.title('Проверка счетчика ингридиента')
     @allure.description('Добавление  ингридиента в заказ и проверка, что счетчик ингридиента увеличился')
@@ -44,7 +44,7 @@ class TestMainFunctionality:
         main_page = MainPage(driver)
         main_page.move_ingredient_to_burger_constructor()
         main_page.counter_of_ingredient_is_visible()
-        assert main_page.counter_of_ingredient_is_displayed()
+        assert main_page.counter_of_ingredient_is_displayed() is True
 
     @allure.title('Проверка создания заказа')
     @allure.description('оформление заказа и проверка что появилось всплывающее окно с деталями заказа')
@@ -54,4 +54,4 @@ class TestMainFunctionality:
         main_page.move_bun_to_burger_constructor()
         main_page.click_on_place_an_order_button()
         main_page.wait_order_pop_up_window_is_visible()
-        assert main_page.pop_up_is_displayed
+        assert main_page.pop_up_is_displayed() is True
